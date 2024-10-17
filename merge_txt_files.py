@@ -9,6 +9,8 @@ def get_dir_files(dir):
             txt_files.append(full_path)
         else:
             pass
+    txt_files.sort()
+    
     return txt_files
 
 def merge_txt(all_files, file_path):
