@@ -19,7 +19,9 @@ This repository contains data analysis of the iconic TV show *Friends*, focusing
 - `README.md`: Project documentation (this file).
 
 ## Key Analysis
-- **Character Appearances**: Counts the number of lines and scenes for each character per episode and season.
+- **Character Appearances**: Counts the number of lines and scenes for each main character per episode and season.
+- **Character Sentiment**: Looks at changes in sentiment across seasons for main characters ad
+sees if there is any significant differences between the overall candidate sentiment.
 - **Rating Influences**: Analyzes factors such as character involvement, episode duration, director, and viewership to identify correlations with episode ratings.
 - **Visualizations**: Plots episode ratings, line counts vs. scene counts, and character trends to explore relationships within the data.
 
