@@ -1,3 +1,6 @@
+![alt text](/cover-image.png)
+
+
 # Friends Episodes Data Analysis
 
 ## Overview
