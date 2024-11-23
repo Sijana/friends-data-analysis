@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overanalyzing Friends</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.svg" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <img src="cover-image.png" alt="Cover Image">
+        <h1>Overanalyzing Friends</h1>
+        <p>By Sijana Mamos on <a href="https://medium.com/@sijanamamos/overanalysing-friends-e7843626ad17" target="_blank">Medium</a></p>
+    </header>
+    <main>
+        <article>
+            <div class="paragraph">
+                <h2>Introduction</h2>
+                    <p> In a truly-millennial fashion I decided to showcase some of my Data Science skills by 
+                        looking at the dialogue from the TV Show “Friends” to extract information about the main 
+                        characters and better understand show’s ratings.</p>
+                    <p> I used Pandas, NumPy, Matplotlib and Seaborn for data analysis and visualisation, NLTK for NLP 
+                        and sckit-learn to understand the importance of various features of the show in shaping episode ratings.</p>  
+                    <p> I used the txt files available on <a href="https://www.kaggle.com/" target="_blank">Kaggle</a> alongside 
+                        IMBD data to collate the insights. I converted lines across all episodes into a Pandas DataFrame 
+                        that allowed me to count and analyse them. I focused on the main six characters. You can find more graphs in this 
+                        <a href="https://github.com/Sijana/friends-data-analysis/blob/main/notebooks/full-data-analysis.ipynb" target="_blank">Jupyter notebook</a>.</p>
+                        
+                    <p> The entire project can be found in this <a href="https://github.com/Sijana/friends-data-analysis/blob/main/notebooks/full-data-analysis.ipynb" target=""_blank>GitHub repo</a> alongside helper functions and the raw txt files.</p>
+            <h2>Episode Ratings</h2>
+                <p>I looked at IMDB episode ratings across all seasons in the US. Top five and bottom five episodes have been labelled 
+                    with their titles. Overall, the final season has seen the steepest increase in ratings, while the steepest decrease
+                    can be seen in season 8. All episodes have an above 7.0 ratings and the vast majority scored over 8.0.</p>
+                <p>Season 9 has the lowest average, which I personally can understand with the misguided arc of Rachel & Joey’s 
+                    romance, and Chandler spending a lot of that season in Tulsa.</p>
+                <p>Unsurprisingly, some of the most iconic episodes (e.g. The One Where Everybody Finds Out or the Series finale) 
+                    have the highest scores.</p>
+                <img src="graphs/episode-ratings.png" alt="Episode Ratings">
+
+            <h2>Main Character Lines & Scenes</h2>
+                <p>The number of lines and scenes each main character was in varies across the episodes, with the show giving more lines 
+                    to Ross and Rachel overall. This data in the past has been used to attempt and identify the “real” main characters of the show.</p>
+                <img src="graphs/lines-percentage-per-season.png" alt="Lines Per Season">
+                <p>The total number of scenes is divided more equally between all main characters compared to the number of lines, although the differences
+                    are relatively small.</p>
+                <img src="graphs/lines-percentage-piechart.png" alt="Lines Piechart">
+            <h2>Sentiment Analysis</h2>
+                <p>I used TextBlob’s sentiment polarity to investigate the sentiment of each character.</p>
+                <p>All characters’ sentiment averages over 0.05 which indicates overall positive sentiment, 
+                    although it is close to the neutral range.</p>
+                <p>Some of the sentiment peaks and troughs match some of the key plot lines of the show. E.g.
+                    Rachel’s Season 4 dip can be explained by the upcoming wedding of Ross and Emily, while Phoebe’s peak 
+                    that season matches with her pregnancy with the triplets. Chandler’s and Monica’s sentiments peak in Season 5 
+                    when their relationship develops.</p>
+                <img src="graphs/sentiment-analysis.png" alt="Sentiment Analysis">
+                <p>Given the variation in the sentiment over seasons and how close they are in value, I was wondering if there is a 
+                    statistical difference in the average sentiment between the main characters.</p>
+                <p>I performed an ANOVA to see if there is a significant difference. After performing Tukey’s HSD test for post-hoc 
+                    comparison, I discovered that the only character with a significant difference in their sentiment is Phoebe, with 
+                    (unsurprisingly for those who have watched the series) most positive sentiment. The other’s had very similar sentiment 
+                    scores, with Monica being at the bottom.</p>
+                <img src="graphs/anova.webp" alt="Anova">
+            <h2>Episode Rating Data Analysis</h2>
+                <p>I used scikit-learn to investigate what features are good predictors of the episodes’ IMBD ratings. I looked into number
+                    of viewers (in the US), writers and directors, as well as the number of lines and scenes of each main character. I created 
+                    a SHAP summary plot to better understand the importance of each feature.</p>
+                <img src="graphs/shap-values.png" alt="Shap">
+                <p>A few words on how to interpret SHAP summary plots:
+                    <ul>
+                        <li>Feature Importance is shown on the Y-axis, with the features at the top being the most influential in predicting 
+                            the model’s output, while those lower down are less important.</li>
+                        <li>The SHAP value (impact on model output) is shown on the X-axis. 
+                            Positive SHAP values indicate a positive impact on the prediction (raising the rating), 
+                            while negative SHAP values indicate a negative impact (lowering the rating).</li>
+                        <li>The colour represents the feature’s value, ranging from blue (low) to red (high). For example, for num__us_viewers, 
+                            red dots on the right indicate that high US viewership is associated with higher ratings, while blue dots on the left 
+                            suggest low viewership correlates with lower ratings.</li>
+                        <li>Each dot represents a SHAP value for an individual episode. A wide spread of dots along the x-axis indicates that the
+                            feature’s impact on ratings varies significantly across episodes.</li>
+                    </ul>
+                </p>
+            <h2>Key Insights</h2>
+            <p>
+                <ul>
+                    <li><b>High Viewership</b> (num__us_viewers) is the strongest predictor of positive ratings.</li>
+                    <li><b>Phoebe’s and Chandler’s Lines</b> (num__('Lines', 'Phoebe') and num__('Lines', 'Chandler')) also 
+                        appear influential, suggesting that episodes where these characters have more lines tend to have distinct
+                        impacts on ratings, though the direction varies (indicated by the spread on both sides of 0).</li>
+                    <li><b>Directors and Writers</b>: Specific writers or directors have modest but consistent effects, perhaps due to the 
+                        style or storyline choices associated with them.</li>
+                </ul>
+            </p>
+            <p>And now we can re-watch the show with a newly found awareness of some of the data behind it.</p>
+            <p>
+                <img src="unagi.webp" alt="Unagi">
+            </p>
+            </div>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sijana Mamos</p>
+    </footer>
+</body>
+</html>
